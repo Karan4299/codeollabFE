@@ -1,0 +1,24 @@
+.loader {
+    position: absolute;
+    width: 100vw;
+    height: 100svh;
+    background-color: rgba(63, 63, 63, 0.784);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.error-popup {
+    position: absolute;
+
+    right: 30px;
+    bottom: 30px;
+    padding: 20px;
+    border-radius: 8px;
+    color: white;
+
+    background-color: red;
+    &.error {
+    }
+  }
