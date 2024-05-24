@@ -1,10 +1,6 @@
 'use client'
 import React, {
-  ChangeEventHandler,
-  FormEventHandler,
-  useCallback,
   useEffect,
-  useRef,
   useState,
 } from 'react'
 import Context from "../context"
@@ -18,7 +14,7 @@ const Header = ({ onLeave }: { onLeave: () => void }) => {
     <div className="header-container">
       <div className="header-left">COTEXT</div>
       <div className="header-right">
-        <button onClick={onLeave}>Leave</button>
+        <button className='leave-button' onClick={onLeave}>Leave</button>
       </div>
     </div>
   )
