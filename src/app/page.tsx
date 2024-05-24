@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { useContext } from 'react'
 import AppContext from '../context/AppContext'
 import Context from './context'
+import CustomError from '@/types/CustomClasses'
 
 export default function Home() {
   const { register, handleSubmit } = useForm()
@@ -24,13 +25,11 @@ export default function Home() {
           username: formdata.username,
         }),
       })
-      const statusCode = response.status
-
+      const statuCode = response.status
       if (!response.ok) {
-        const errorData = await response.json()
-
+        console.log(response.statusText)
         setLoadingData(false)
-        throw new Error(errorData.message || 'Something went wrong')
+        throw new CustomError(JSON.parse(response.statusText) || ['Something went wrong'], statuCode)
       }
       const contentType = response.headers.get('Content-Type')
       let responseData
@@ -45,12 +44,9 @@ export default function Home() {
       localStorage.setItem('roomUsername', formdata.username)
       router.push('/room')
     } catch (err) {
-      console.error('Error while joining room')
+        setLoadingData(false)
       // @ts-ignore
-      setErrorMessage(err.message || 'Something went wrong')
-      setTimeout(() => {
-        setErrorMessage(undefined)
-      }, 4000)
+      setErrorMessage(err.messages || ['Something went wrong'])
     }
   }
   return (

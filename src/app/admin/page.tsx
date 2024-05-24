@@ -5,6 +5,7 @@ import { FieldValues, useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 import AppContext from '../../context/AppContext'
 import Context from '../context'
+import CustomError from '@/types/CustomClasses'
 
 export default function Admin() {
   const { register, handleSubmit } = useForm()
@@ -21,11 +22,12 @@ export default function Admin() {
         },
         body: JSON.stringify(formdata),
       })
+      const statuCode = response.status
 
       if (!response.ok) {
-        const errorData = await response.json()
         setLoadingData(false)
-        throw new Error(errorData.message || 'Something went wrong')
+        throw new CustomError(JSON.parse(response.statusText) || ['Something went wrong'], statuCode)
+
       }
 
       const contentType = response.headers.get('Content-Type')
@@ -45,10 +47,7 @@ export default function Admin() {
       setLoadingData(false)
 
       // @ts-ignore
-      setErrorMessage(err.message || 'Something went wrong')
-      setTimeout(() => {
-        setErrorMessage(undefined)
-      }, 4000)
+      setErrorMessage(err.messages || ['Something went wrong'])
     }
   }
   return (

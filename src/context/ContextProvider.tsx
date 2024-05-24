@@ -6,13 +6,13 @@ const ContextProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [loading, setLoading] = useState<boolean>(false)
-  const [error, setError] = useState<string | undefined>()
+  const [error, setError] = useState<string[] | undefined>()
 
   const setLoadingData = (isLoading: boolean) => {
     setLoading(isLoading)
   }
 
-  const setErrorMessage = (errorMessage: string | undefined) => {
+  const setErrorMessage = (errorMessage: string[] | undefined) => {
     setError(errorMessage)
   }
 

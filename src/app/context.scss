@@ -9,16 +9,19 @@
     z-index: 10;
 }
 
-.error-popup {
+.error-container {
     position: absolute;
 
     right: 30px;
     bottom: 30px;
-    padding: 20px;
-    border-radius: 8px;
-    color: white;
-
-    background-color: red;
-    &.error {
-    }
-  }
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    .error-popup {
+        padding: 20px;
+        border-radius: 8px;
+        color: white;
+    
+        background-color: red;
+      }
+}
