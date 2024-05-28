@@ -15,19 +15,24 @@ export default function Admin() {
   const handleFormSubmit = async (formdata: FieldValues) => {
     try {
       setLoadingData(true)
-      const response = await fetch('http://localhost:8080/api/create-room', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json', // Setting Content-Type header
+      const response = await fetch(
+        'https://codeollabapi.kbairagi.com/api/create-room',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json', // Setting Content-Type header
+          },
+          body: JSON.stringify(formdata),
         },
-        body: JSON.stringify(formdata),
-      })
+      )
       const statuCode = response.status
 
       if (!response.ok) {
         setLoadingData(false)
-        throw new CustomError(JSON.parse(response.statusText) || ['Something went wrong'], statuCode)
-
+        throw new CustomError(
+          JSON.parse(response.statusText) || ['Something went wrong'],
+          statuCode,
+        )
       }
 
       const contentType = response.headers.get('Content-Type')
@@ -52,20 +57,20 @@ export default function Admin() {
   }
   return (
     <>
-    <Context />
-    <div className="admin-main">
-      <form className="admin-form" onSubmit={handleSubmit(handleFormSubmit)}>
-        <label htmlFor="username"> Username: </label>
-        <input type="text" id="username" {...register('username')} />
-        <label htmlFor="password"> Password: </label>
-        <input type="text" id="password" {...register('password')} />
-        <label htmlFor="roomId"> RoomId: </label>
-        <input type="number" id="roomId" {...register('roomId')} />
-        <label htmlFor="secretKey">Secret Key:</label>
-        <input type="text" id="secretKey" {...register('secretKey')} />
-        <button type="submit">Create Room</button>
-      </form>
-    </div>
+      <Context />
+      <div className="admin-main">
+        <form className="admin-form" onSubmit={handleSubmit(handleFormSubmit)}>
+          <label htmlFor="username"> Username: </label>
+          <input type="text" id="username" {...register('username')} />
+          <label htmlFor="password"> Password: </label>
+          <input type="text" id="password" {...register('password')} />
+          <label htmlFor="roomId"> RoomId: </label>
+          <input type="number" id="roomId" {...register('roomId')} />
+          <label htmlFor="secretKey">Secret Key:</label>
+          <input type="text" id="secretKey" {...register('secretKey')} />
+          <button type="submit">Create Room</button>
+        </form>
+      </div>
     </>
   )
 }
