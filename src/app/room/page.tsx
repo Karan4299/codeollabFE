@@ -1,9 +1,6 @@
 'use client'
-import React, {
-  useEffect,
-  useState,
-} from 'react'
-import Context from "../context"
+import React, { useEffect, useState } from 'react'
+import Context from '../context'
 import './style.scss'
 import { Socket, io } from 'socket.io-client'
 import { useRouter } from 'next/navigation'
@@ -14,7 +11,9 @@ const Header = ({ onLeave }: { onLeave: () => void }) => {
     <div className="header-container">
       <div className="header-left">COTEXT</div>
       <div className="header-right">
-        <button className='leave-button' onClick={onLeave}>Leave</button>
+        <button className="leave-button" onClick={onLeave}>
+          Leave
+        </button>
       </div>
     </div>
   )
@@ -36,7 +35,7 @@ export default function Room() {
   const [textareaValue, setTextareaValue] = useState<string>('')
 
   useEffect(() => {
-    const socket = io('http://localhost:8080') // Connect to your Socket.IO server
+    const socket = io('https://codeollabapi.kbairagi.com/') // Connect to your Socket.IO server
     setSocket(socket)
 
     socket.on('connect', () => {
@@ -118,51 +117,54 @@ export default function Room() {
 
   return (
     <>
-    <Context />
-    <div
-      style={{
-        display: 'flex',
-        width: '100%',
-        height: '100svh',
-        backgroundColor: 'red',
-        flexDirection: 'column',
-      }}
-    >
-      <Header onLeave={handleLeaveRoom} />
-      <div className="editor-container">
-        <textarea
-          rows={30}
-          cols={130}
-          value={textareaValue}
-          onChange={handleTextareaChange}
-          id="editor-id"
-        ></textarea>
-        <div className={`users-container ${buttonState}`}>
-          {buttonState === ButtonState.COLLAPSE && (
-            <div className="user-count">{users.length}</div>
-          )}
-          <div className="users-first users-card">
-            <p>Collaborators</p>
-            <p className={`dropbutton ${buttonState}`} onClick={handleCollapse}>
-              <Image
-                src={`/${buttonState}.png`}
-                alt="Description of your image"
-                width={20}
-                height={20}
-              />
-            </p>
+      <Context />
+      <div
+        style={{
+          display: 'flex',
+          width: '100%',
+          height: '100svh',
+          backgroundColor: 'red',
+          flexDirection: 'column',
+        }}
+      >
+        <Header onLeave={handleLeaveRoom} />
+        <div className="editor-container">
+          <textarea
+            rows={30}
+            cols={130}
+            value={textareaValue}
+            onChange={handleTextareaChange}
+            id="editor-id"
+          ></textarea>
+          <div className={`users-container ${buttonState}`}>
+            {buttonState === ButtonState.COLLAPSE && (
+              <div className="user-count">{users.length}</div>
+            )}
+            <div className="users-first users-card">
+              <p>Collaborators</p>
+              <p
+                className={`dropbutton ${buttonState}`}
+                onClick={handleCollapse}
+              >
+                <Image
+                  src={`/${buttonState}.png`}
+                  alt="Description of your image"
+                  width={20}
+                  height={20}
+                />
+              </p>
+            </div>
+            {users.map((user, index) => {
+              return (
+                <div className="users-card" key={index}>
+                  <Image src={`/user.png`} alt="user" width={20} height={20} />
+                  <p key={index}>{user}</p>
+                </div>
+              )
+            })}
           </div>
-          {users.map((user, index) => {
-            return (
-              <div className="users-card" key={index}>
-                <Image src={`/user.png`} alt="user" width={20} height={20} />
-                <p key={index}>{user}</p>
-              </div>
-            )
-          })}
         </div>
       </div>
-    </div>
     </>
   )
 }
